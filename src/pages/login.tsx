@@ -1,8 +1,7 @@
-import { LogInIcon } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 
 import Button from "../components/button";
-import Input from "../components/input";
+import LoginForm from "../components/login-form";
 
 const LoginPage = () => {
   return (
@@ -20,13 +19,7 @@ const LoginPage = () => {
 
         <div className="bg-brand-darken-blend h-px w-full" />
 
-        <form className="flex flex-col gap-5">
-          <Input type="email" label="E-mail" placeholder="Digite seu e-mail" />
-
-          <Input type="password" label="Senha" placeholder="Digite sua senha" />
-
-          <Button icon={LogInIcon}>Entrar</Button>
-        </form>
+        <LoginForm />
       </section>
     </main>
   );
