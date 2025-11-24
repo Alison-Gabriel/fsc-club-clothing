@@ -1,5 +1,7 @@
 import { LogInIcon } from "lucide-react";
+import { FaGoogle } from "react-icons/fa";
 
+import Button from "../components/button";
 import Input from "../components/input";
 
 const LoginPage = () => {
@@ -8,9 +10,9 @@ const LoginPage = () => {
       <section className="w-lg space-y-5">
         <header className="space-y-5 text-center">
           <h2 className="text-2xl font-bold">Entre com a sua conta</h2>
-          <button className="bg-brand-background text-brand-foreground hover:bg-brand-background/95 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 font-bold shadow-md transition-all">
-            Entrar com o Google
-          </button>
+
+          <Button icon={FaGoogle}>Entrar com o Google</Button>
+
           <p className="text-brand-dark-foreground font-semibold">
             ou entre com o seu e-mail
           </p>
@@ -20,14 +22,10 @@ const LoginPage = () => {
 
         <form className="flex flex-col gap-5">
           <Input type="email" label="E-mail" placeholder="Digite seu e-mail" />
+
           <Input type="password" label="Senha" placeholder="Digite sua senha" />
 
-          <button
-            type="submit"
-            className="bg-brand-background text-brand-foreground hover:bg-brand-background/95 shadow-brand-darken-blend flex w-full items-center justify-center gap-2 rounded-lg py-2.5 font-bold shadow-md transition-all"
-          >
-            <LogInIcon className="size-4" /> Entrar
-          </button>
+          <Button icon={LogInIcon}>Entrar</Button>
         </form>
       </section>
     </main>
