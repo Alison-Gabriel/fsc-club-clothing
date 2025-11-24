@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { ComponentPropsWithRef } from "react";
 
 interface InputProps extends ComponentPropsWithRef<"input"> {
@@ -22,7 +23,10 @@ const Input = ({
         {...props}
         type={type}
         placeholder={placeholder}
-        className={`bg-brand-input ring-brand-dark-foreground/30 focus:ring-brand-dark-foreground shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 font-normal shadow-md ring-[1.5px] transition placeholder:font-medium focus:outline-none ${hasInputError && "text-red-500 ring-red-500"}`}
+        className={clsx(
+          "bg-brand-input ring-brand-dark-foreground/30 focus:ring-brand-dark-foreground shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 font-normal shadow-md ring-[1.5px] transition placeholder:font-medium focus:outline-none",
+          hasInputError && "text-red-500 ring-red-500",
+        )}
       />
 
       {hasInputError && (
