@@ -1,7 +1,11 @@
 import { ShoppingBagIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleGoToLoginPage = () => navigate("/login");
+
   return (
     <header className="bg-brand-background text-brand-foreground flex w-full items-center justify-between px-7 py-5 shadow">
       <Link to="/">
@@ -13,7 +17,11 @@ const Header = () => {
           <Link className="underline-offset-4 hover:underline" to="/explore">
             Explorar
           </Link>
-          <Link className="underline-offset-4 hover:underline" to="/login">
+          <Link
+            onClick={handleGoToLoginPage}
+            className="underline-offset-4 hover:underline"
+            to="/login"
+          >
             Login
           </Link>
           <Link className="underline-offset-4 hover:underline" to="/signup">

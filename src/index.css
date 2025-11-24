@@ -2,7 +2,9 @@
 
 @theme {
   --color-brand-background: #212529;
+  --color-brand-input: rgba(233, 236, 239, 1);
   --color-brand-foreground: #f8f9fa;
+  --color-brand-dark-foreground: rgba(52, 58, 64, 1);
   --color-brand-translucent: rgba(233, 236, 239, 0.45);
   --color-brand-darken-blend: rgba(0, 0, 0, 0.3);
 }
