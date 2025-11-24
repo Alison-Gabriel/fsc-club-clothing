@@ -7,7 +7,7 @@ import Button from "./button";
 import Input from "./input";
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm<LoginFormSchema>({
+  const { register, handleSubmit, formState } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -26,6 +26,7 @@ const LoginForm = () => {
     >
       <Input
         {...register("email")}
+        error={formState.errors.email?.message}
         type="email"
         label="E-mail"
         placeholder="Digite seu e-mail"
@@ -33,6 +34,7 @@ const LoginForm = () => {
 
       <Input
         {...register("password")}
+        error={formState.errors.password?.message}
         type="password"
         label="Senha"
         placeholder="Digite sua senha"
