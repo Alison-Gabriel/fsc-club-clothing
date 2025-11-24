@@ -8,11 +8,11 @@ const LoginPage = () => {
     <main className="flex h-full w-full items-center justify-center p-8">
       <section className="w-lg space-y-5">
         <header className="space-y-5 text-center">
-          <h2 className="text-2xl font-bold">Entre com a sua conta</h2>
+          <h2 className="text-xl font-bold">Entre com a sua conta</h2>
 
           <Button icon={FaGoogle}>Entrar com o Google</Button>
 
-          <p className="text-brand-dark-foreground font-semibold">
+          <p className="text-brand-dark-foreground text-sm font-semibold">
             ou entre com o seu e-mail
           </p>
         </header>
