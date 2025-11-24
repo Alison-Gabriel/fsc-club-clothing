@@ -15,18 +15,18 @@ const Input = ({
   const hasInputError = Boolean(error);
 
   return (
-    <label className="text-brand-dark-foreground flex flex-col gap-1 font-bold">
-      <span className={`${hasInputError && "text-red-500"}`}>{label}</span>
+    <label className="text-brand-dark-foreground flex flex-col gap-1 text-sm font-bold">
+      {label}
 
       <input
         {...props}
         type={type}
         placeholder={placeholder}
-        className={`bg-brand-input ring-brand-dark-foreground/30 focus:ring-brand-dark-foreground shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 font-normal shadow-md ring transition placeholder:font-medium focus:outline-none ${hasInputError && "ring-red-500"}`}
+        className={`bg-brand-input ring-brand-dark-foreground/30 focus:ring-brand-dark-foreground shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 font-normal shadow-md ring-[1.5px] transition placeholder:font-medium focus:outline-none ${hasInputError && "text-red-500 ring-red-500"}`}
       />
 
       {hasInputError && (
-        <span className="text-sm font-semibold text-red-500">{error}</span>
+        <span className="font-semibold text-red-500">{error}</span>
       )}
     </label>
   );
