@@ -4,7 +4,7 @@
   --color-brand-background: #212529;
   --color-brand-foreground: #f8f9fa;
   --color-brand-translucent: rgba(233, 236, 239, 0.45);
-  --color-brand-shadow: rgba(0, 0, 0, 0.25);
+  --color-brand-darken-blend: rgba(0, 0, 0, 0.3);
 }
 
 @font-face {
