@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { LogInIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -11,16 +11,17 @@ import Button from "./button";
 import Input from "./input";
 
 const SignupForm = () => {
-  const { register, handleSubmit, formState } = useForm<SignupFormSchema>({
-    resolver: zodResolver(signupFormSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-    },
-  });
+  const { register, handleSubmit, setError, formState } =
+    useForm<SignupFormSchema>({
+      resolver: zodResolver(signupFormSchema),
+      defaultValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+      },
+    });
 
   const handleLoginFormSubmit = async (data: SignupFormSchema) => {
     const { firstName, lastName, email, password } = data;
@@ -40,14 +41,14 @@ const SignupForm = () => {
       });
     } catch (error) {
       if (error instanceof FirebaseError) {
-        const isEmailInUse = error.message.includes("email-already-in-use");
+        const isEmailAlreadyExists = error.code === AuthErrorCodes.EMAIL_EXISTS;
 
-        if (isEmailInUse) {
-          console.log("E-mail já está sendo usado.");
-          return;
+        if (isEmailAlreadyExists) {
+          return setError("email", {
+            type: "alreadyInUse",
+            message: "Este e-mail já está em uso.",
+          });
         }
-
-        console.log(error.message);
       }
     }
   };
