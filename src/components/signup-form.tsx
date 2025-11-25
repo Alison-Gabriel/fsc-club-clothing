@@ -1,7 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FirebaseError } from "firebase/app";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import { LogInIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import { auth, db } from "../lib/firebase";
 import { type SignupFormSchema, signupFormSchema } from "../schemas/signup";
 import Button from "./button";
 import Input from "./input";
@@ -18,8 +22,34 @@ const SignupForm = () => {
     },
   });
 
-  const handleLoginFormSubmit = (data: SignupFormSchema) => {
-    console.log(data);
+  const handleLoginFormSubmit = async (data: SignupFormSchema) => {
+    const { firstName, lastName, email, password } = data;
+
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      await addDoc(collection(db, "users"), {
+        id: user.uid,
+        email: user.email,
+        firstName,
+        lastName,
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const isEmailInUse = error.message.includes("email-already-in-use");
+
+        if (isEmailInUse) {
+          console.log("E-mail já está sendo usado.");
+          return;
+        }
+
+        console.log(error.message);
+      }
+    }
   };
 
   return (
