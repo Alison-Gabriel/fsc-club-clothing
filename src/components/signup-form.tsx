@@ -36,6 +36,7 @@ const SignupForm = () => {
       await addDoc(collection(db, "users"), {
         id: user.uid,
         email: user.email,
+        provider: "firebase",
         firstName,
         lastName,
       });
