@@ -1,22 +1,47 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LogInIcon } from "lucide-react";
+import { FirebaseError } from "firebase/app";
+import { AuthErrorCodes, signInWithEmailAndPassword } from "firebase/auth";
+import { Loader2Icon, LogInIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import { auth } from "../lib/firebase";
 import { type LoginFormSchema, loginFormSchema } from "../schemas/login";
 import Button from "./button";
 import Input from "./input";
 
 const LoginForm = () => {
-  const { register, handleSubmit, formState } = useForm<LoginFormSchema>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const { register, handleSubmit, setError, formState } =
+    useForm<LoginFormSchema>({
+      resolver: zodResolver(loginFormSchema),
+      defaultValues: {
+        email: "",
+        password: "",
+      },
+    });
 
-  const handleLoginFormSubmit = (data: LoginFormSchema) => {
-    console.log(data);
+  const handleLoginFormSubmit = async (data: LoginFormSchema) => {
+    const { email, password } = data;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const isMismatchedCredentials =
+          error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS;
+
+        if (isMismatchedCredentials) {
+          setError("email", {
+            type: "mismatchedCredentials",
+            message: "E-mail ou senha inválidos.",
+          });
+          setError("password", {
+            type: "mismatchedCredentials",
+            message: "E-mail ou senha inválidos.",
+          });
+          return setError("root", { type: "mismatchedCredentials" });
+        }
+      }
+    }
   };
 
   return (
@@ -40,7 +65,12 @@ const LoginForm = () => {
         placeholder="Digite sua senha"
       />
 
-      <Button icon={LogInIcon}>Entrar</Button>
+      <Button
+        disabled={formState.isSubmitting}
+        icon={formState.isSubmitting ? Loader2Icon : LogInIcon}
+      >
+        Entrar
+      </Button>
     </form>
   );
 };
