@@ -6,10 +6,10 @@ interface ProductItemProps {
 
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
-    <div className="flex max-w-[300px] flex-col">
+    <div className="flex max-w-full flex-col">
       <div
         style={{ backgroundImage: `url(${product.imageUrl})` }}
-        className={`shadow-brand-darken-blend h-[380px] w-[300px] rounded-[10px] bg-cover bg-center bg-no-repeat shadow`}
+        className={`shadow-brand-darken-blend h-[460px] w-full rounded-[10px] bg-cover bg-center bg-no-repeat shadow`}
       />
 
       <div className="mt-1 flex justify-between">
