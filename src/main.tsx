@@ -5,11 +5,14 @@ import { createRoot } from "react-dom/client";
 
 import App from "./app";
 import AuthContextProvider from "./contexts/auth";
+import { CategoryContextProvider } from "./contexts/category";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthContextProvider>
-      <App />
+      <CategoryContextProvider>
+        <App />
+      </CategoryContextProvider>
     </AuthContextProvider>
   </StrictMode>,
 );
