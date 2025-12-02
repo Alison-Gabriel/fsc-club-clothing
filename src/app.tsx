@@ -10,7 +10,7 @@ import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 
 const App = () => {
-  const { user, isUserAuthenticated, loginUser, logoutUser } = useAuth();
+  const { isUserAuthenticated, loginUser, logoutUser } = useAuth();
 
   onAuthStateChanged(auth, async (user) => {
     const isUserSigningIn = !isUserAuthenticated && user;
@@ -30,8 +30,6 @@ const App = () => {
       return loginUser(userFromFirestore);
     }
   });
-
-  console.log({ user, isUserAuthenticated });
 
   return (
     <BrowserRouter>

@@ -1,14 +1,26 @@
 import type { FirebaseError } from "firebase/app";
 import { signInWithPopup } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect } from "react";
 import { FaGoogle } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 import * as Button from "../components/button";
 import Header from "../components/header";
 import LoginForm from "../components/login-form";
+import { useAuth } from "../contexts/auth";
 import { auth, db, googleProvider } from "../lib/firebase";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { isUserAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      navigate("/");
+    }
+  }, [isUserAuthenticated, navigate]);
+
   const handleLoginWithGoogle = async () => {
     try {
       const userCredentials = await signInWithPopup(auth, googleProvider);

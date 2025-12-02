@@ -1,7 +1,20 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+
 import Header from "../components/header";
 import SignupForm from "../components/signup-form";
+import { useAuth } from "../contexts/auth";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
+  const { isUserAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      navigate("/");
+    }
+  }, [isUserAuthenticated, navigate]);
+
   return (
     <>
       <Header />
