@@ -7,7 +7,7 @@ import { PiSignIn } from "react-icons/pi";
 
 import { auth, db } from "../lib/firebase";
 import { type SignupFormSchema, signupFormSchema } from "../schemas/signup";
-import Button from "./button";
+import * as Button from "./button";
 import * as Input from "./input";
 
 const SignupForm = () => {
@@ -116,7 +116,12 @@ const SignupForm = () => {
         )}
       </Input.Root>
 
-      <Button icon={PiSignIn}>Criar Conta</Button>
+      <Button.Root>
+        <Button.Icon>
+          <PiSignIn className="text-brand-foreground size-6" />
+        </Button.Icon>
+        <Button.Label text="Criar Conta" />
+      </Button.Root>
     </form>
   );
 };
