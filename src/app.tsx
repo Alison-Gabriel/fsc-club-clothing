@@ -1,5 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 import { useAuth } from "./contexts/auth";
@@ -10,13 +11,17 @@ import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 
 const App = () => {
+  const [isInitializing, setIsInitializing] = useState(true);
   const { isUserAuthenticated, loginUser, logoutUser } = useAuth();
 
   onAuthStateChanged(auth, async (user) => {
     const isUserSigningIn = !isUserAuthenticated && user;
     const isUserSigningOut = isUserAuthenticated && !user;
 
-    if (isUserSigningOut) return logoutUser();
+    if (isUserSigningOut) {
+      logoutUser();
+      return setIsInitializing(false);
+    }
 
     if (isUserSigningIn) {
       const querySnapshot = await getDocs(
@@ -27,9 +32,14 @@ const App = () => {
       );
       const userFromFirestore = querySnapshot.docs[0].data();
 
-      return loginUser(userFromFirestore);
+      loginUser(userFromFirestore);
+      return setIsInitializing(false);
     }
+
+    return setIsInitializing(false);
   });
+
+  if (isInitializing) return null;
 
   return (
     <BrowserRouter>
