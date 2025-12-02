@@ -1,18 +1,21 @@
 import type { FirebaseError } from "firebase/app";
 import { signInWithPopup } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 import * as Button from "../components/button";
 import Header from "../components/header";
+import Loading from "../components/loading";
 import LoginForm from "../components/login-form";
 import { useAuth } from "../contexts/auth";
 import { auth, db, googleProvider } from "../lib/firebase";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const [isLoading, startLoading] = useTransition();
   const { isUserAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -21,38 +24,42 @@ const LoginPage = () => {
     }
   }, [isUserAuthenticated, navigate]);
 
-  const handleLoginWithGoogle = async () => {
-    try {
-      const userCredentials = await signInWithPopup(auth, googleProvider);
-      const userSnapshot = await getDocs(
-        query(
-          collection(db, "users"),
-          where("id", "==", userCredentials.user.uid),
-        ),
-      );
-      const user = userSnapshot.docs[0]?.data();
-      const isUserAlreadyExists = Boolean(user);
+  const handleLoginWithGoogle = () => {
+    startLoading(async () => {
+      try {
+        const userCredentials = await signInWithPopup(auth, googleProvider);
+        const userSnapshot = await getDocs(
+          query(
+            collection(db, "users"),
+            where("id", "==", userCredentials.user.uid),
+          ),
+        );
+        const user = userSnapshot.docs[0]?.data();
+        const isUserAlreadyExists = Boolean(user);
 
-      if (isUserAlreadyExists) return;
+        if (isUserAlreadyExists) return;
 
-      const firstName = userCredentials.user.displayName?.split(" ")[0] ?? "";
-      const lastName = userCredentials.user.displayName?.split(" ")[1] ?? "";
+        const firstName = userCredentials.user.displayName?.split(" ")[0] ?? "";
+        const lastName = userCredentials.user.displayName?.split(" ")[1] ?? "";
 
-      await addDoc(collection(db, "users"), {
-        id: userCredentials.user.uid,
-        email: userCredentials.user.email,
-        provider: "google",
-        firstName,
-        lastName,
-      });
-    } catch (error) {
-      console.log((error as FirebaseError).message);
-    }
+        await addDoc(collection(db, "users"), {
+          id: userCredentials.user.uid,
+          email: userCredentials.user.email,
+          provider: "google",
+          firstName,
+          lastName,
+        });
+      } catch (error) {
+        console.log((error as FirebaseError).message);
+      }
+    });
   };
 
   return (
     <>
       <Header />
+
+      {isLoading && <Loading />}
 
       <main className="flex h-[calc(100vh-72px)] w-full items-center justify-center p-8">
         <section className="w-lg space-y-5">
