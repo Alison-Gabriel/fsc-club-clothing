@@ -2,13 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { LogInIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { PiSignIn } from "react-icons/pi";
 
 import { auth, db } from "../lib/firebase";
 import { type SignupFormSchema, signupFormSchema } from "../schemas/signup";
 import Button from "./button";
-import Input from "./input";
+import * as Input from "./input";
 
 const SignupForm = () => {
   const { register, handleSubmit, setError, formState } =
@@ -59,45 +59,64 @@ const SignupForm = () => {
       onSubmit={handleSubmit(handleLoginFormSubmit)}
       className="flex flex-col gap-5"
     >
-      <Input
-        {...register("firstName")}
-        error={formState.errors.firstName?.message}
-        label="Nome"
-        placeholder="Digite seu nome"
-      />
+      <Input.Root>
+        <Input.Label text="Nome" />
+        <Input.Field {...register("firstName")} placeholder="Digite seu nome" />
+        {formState.errors.firstName?.message && (
+          <Input.ErrorMessage message={formState.errors.firstName.message} />
+        )}
+      </Input.Root>
 
-      <Input
-        {...register("lastName")}
-        error={formState.errors.lastName?.message}
-        label="Sobrenome"
-        placeholder="Digite seu sobrenome"
-      />
+      <Input.Root>
+        <Input.Label text="Sobrenome" />
+        <Input.Field
+          {...register("lastName")}
+          placeholder="Digite seu sobrenome"
+        />
+        {formState.errors.lastName?.message && (
+          <Input.ErrorMessage message={formState.errors.lastName.message} />
+        )}
+      </Input.Root>
 
-      <Input
-        {...register("email")}
-        error={formState.errors.email?.message}
-        type="email"
-        label="E-mail"
-        placeholder="Digite seu e-mail"
-      />
+      <Input.Root>
+        <Input.Label text="E-mail" />
+        <Input.Field
+          {...register("email")}
+          type="email"
+          placeholder="Digite seu e-mail"
+        />
+        {formState.errors.email?.message && (
+          <Input.ErrorMessage message={formState.errors.email.message} />
+        )}
+      </Input.Root>
 
-      <Input
-        {...register("password")}
-        error={formState.errors.password?.message}
-        type="password"
-        label="Senha"
-        placeholder="Digite sua senha"
-      />
+      <Input.Root>
+        <Input.Label text="Senha" />
+        <Input.Field
+          {...register("password")}
+          type="password"
+          placeholder="Digite seu senha"
+        />
+        {formState.errors.password?.message && (
+          <Input.ErrorMessage message={formState.errors.password.message} />
+        )}
+      </Input.Root>
 
-      <Input
-        {...register("passwordConfirmation")}
-        error={formState.errors.passwordConfirmation?.message}
-        type="password"
-        label="Confirmação de senha"
-        placeholder="Digite sua senha novamente"
-      />
+      <Input.Root>
+        <Input.Label text="Confirmação de senha" />
+        <Input.Field
+          {...register("passwordConfirmation")}
+          type="password"
+          placeholder="Confirme sua senha"
+        />
+        {formState.errors.passwordConfirmation?.message && (
+          <Input.ErrorMessage
+            message={formState.errors.passwordConfirmation.message}
+          />
+        )}
+      </Input.Root>
 
-      <Button icon={LogInIcon}>Criar Conta</Button>
+      <Button icon={PiSignIn}>Criar Conta</Button>
     </form>
   );
 };
