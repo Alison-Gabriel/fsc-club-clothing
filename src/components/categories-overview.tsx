@@ -5,7 +5,7 @@ const CategoriesOverview = () => {
   const { categories } = useCategory();
 
   return (
-    <div className="space-y-5 p-5">
+    <div className="space-y-5 p-10">
       {categories.map((category) => (
         <CategoryOverview key={category.id} category={category} />
       ))}
