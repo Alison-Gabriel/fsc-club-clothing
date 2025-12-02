@@ -1,68 +1,44 @@
 import { signOut } from "firebase/auth";
-import { LogOutIcon, MenuIcon, ShoppingBagIcon } from "lucide-react";
-import { useState } from "react";
+import { BsCart3 } from "react-icons/bs";
+import { PiSignOutBold } from "react-icons/pi";
 import { Link } from "react-router";
 
 import { auth } from "../lib/firebase";
-import NavLink from "./nav-link";
-import MobileSheet from "./sheet";
 
 const Header = () => {
-  const [isMobileSheetOpen, setIsMobileSheetOpen] = useState(false);
-
   const handleLogOut = () => signOut(auth);
 
-  const handleToggleIsMobileSheetOpen = () => {
-    setIsMobileSheetOpen((prev) => !prev);
-  };
-
   return (
-    <header className="bg-brand-background text-brand-foreground flex h-16 w-full items-center justify-evenly py-5 shadow md:justify-between md:px-7 md:py-5">
-      <Link to="/">
-        <h2 className="text-lg font-bold md:text-xl">
-          <span className="text-violet-500">Club</span> Clothing
-        </h2>
-      </Link>
+    <header className="bg-brand-background text-brand-foreground flex h-16 max-h-16 w-full items-center justify-evenly py-5 shadow md:justify-between md:px-5 md:py-4">
+      <h2 className="text-lg font-bold uppercase md:text-2xl">Club Clothing</h2>
 
-      <div className="flex h-full flex-row-reverse items-center gap-5 md:flex-row">
-        <div className="flex items-center justify-center">
-          <button
-            onClick={handleToggleIsMobileSheetOpen}
-            className="cursor-pointer md:hidden"
-          >
-            <MenuIcon />
-          </button>
+      <nav className="flex items-center gap-10 font-semibold">
+        <Link to="/" className="font-semibold">
+          Explorar
+        </Link>
 
-          <MobileSheet
-            isOpen={isMobileSheetOpen}
-            close={handleToggleIsMobileSheetOpen}
-          />
-        </div>
+        <Link to="/login" className="font-semibold">
+          Login
+        </Link>
 
-        <nav className="hidden items-center gap-3 font-semibold md:flex">
-          <NavLink to="/">Explorar</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/signup">Criar Conta</NavLink>
-        </nav>
-
-        <div className="bg-brand-foreground/30 h-full w-px" />
+        <Link to="/signup" className="font-semibold">
+          Criar Conta
+        </Link>
 
         <div className="flex items-center gap-4">
-          <button className="relative cursor-pointer">
-            <ShoppingBagIcon className="size-5" />
-            <span className="absolute -top-2 -right-2 flex size-4.5 items-center justify-center rounded-full bg-violet-500 text-xs font-bold shadow">
-              9
-            </span>
-          </button>
+          <div className="flex items-center gap-1">
+            <button className="cursor-pointer">
+              <BsCart3 className="size-6" />
+            </button>
 
-          <button
-            className="hidden cursor-pointer md:block"
-            onClick={handleLogOut}
-          >
-            <LogOutIcon className="size-5" />
+            <span className="font-semibold">5</span>
+          </div>
+
+          <button className="cursor-pointer" onClick={handleLogOut}>
+            <PiSignOutBold className="size-6" />
           </button>
         </div>
-      </div>
+      </nav>
     </header>
   );
 };
