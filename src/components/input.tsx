@@ -1,39 +1,50 @@
 import clsx from "clsx";
-import type { ComponentPropsWithRef } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
+import { twMerge } from "tw-merge";
 
-interface InputProps extends ComponentPropsWithRef<"input"> {
-  label: string;
-  error?: string;
+interface RootProps {
+  children: ReactNode;
 }
 
-const Input = ({
-  type = "text",
-  placeholder,
-  label,
-  error,
-  ...props
-}: InputProps) => {
-  const hasInputError = Boolean(error);
+export const Root = ({ children }: RootProps) => {
+  return <div className="flex flex-col">{children}</div>;
+};
 
+interface LabelProps {
+  text: string;
+}
+
+export const Label = ({ text }: LabelProps) => {
   return (
-    <label className="text-brand-dark-foreground flex flex-col gap-1 text-sm font-bold">
-      {label}
-
-      <input
-        {...props}
-        type={type}
-        placeholder={placeholder}
-        className={clsx(
-          "bg-brand-input ring-brand-dark-foreground/30 focus:ring-brand-dark-foreground shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 font-normal shadow-md ring-[1.5px] transition placeholder:font-medium focus:outline-none",
-          hasInputError && "text-red-500 ring-red-500",
-        )}
-      />
-
-      {hasInputError && (
-        <span className="font-semibold text-red-500">{error}</span>
-      )}
+    <label className="text-brand-dark-foreground mb-0.5 font-semibold">
+      {text}
     </label>
   );
 };
 
-export default Input;
+interface ErrorMessageProps {
+  message: string;
+}
+
+export const ErrorMessage = ({ message }: ErrorMessageProps) => {
+  return (
+    <span className="mt-2 text-xs font-medium text-red-500">{message}</span>
+  );
+};
+
+type FieldProps = ComponentPropsWithRef<"input">;
+
+export const Field = ({ placeholder, className, ...props }: FieldProps) => {
+  return (
+    <input
+      {...props}
+      placeholder={placeholder}
+      className={twMerge(
+        clsx(
+          "bg-brand-input shadow-brand-darken-blend w-full rounded-lg px-5 py-2.5 shadow-md/50 transition",
+          className,
+        ),
+      )}
+    />
+  );
+};
