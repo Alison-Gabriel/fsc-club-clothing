@@ -16,7 +16,9 @@ const Header = () => {
 
   return (
     <header className="bg-brand-background text-brand-foreground flex h-16 max-h-16 w-full items-center justify-evenly py-5 shadow md:justify-between md:px-5 md:py-4">
-      <h2 className="text-lg font-bold uppercase md:text-2xl">Club Clothing</h2>
+      <Link to="/" className="text-lg font-bold uppercase md:text-2xl">
+        Club Clothing
+      </Link>
 
       <nav className="flex items-center gap-10 font-semibold">
         <Link to="/" className="font-semibold">
