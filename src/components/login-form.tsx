@@ -12,13 +12,13 @@ import * as Input from "./input";
 import Loading from "./loading";
 
 const LoginForm = () => {
-  const [isLoading, startTransition] = useTransition();
+  const [isUserLoggingIn, startTransition] = useTransition();
 
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -56,7 +56,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {isLoading && <Loading />}
+      {isUserLoggingIn && <Loading />}
 
       <form
         onSubmit={handleSubmit(handleLoginFormSubmit)}
@@ -86,7 +86,7 @@ const LoginForm = () => {
           )}
         </Input.Root>
 
-        <Button.Root disabled={isSubmitting}>
+        <Button.Root>
           <Button.Icon>
             <LogInIcon className="text-brand-foreground size-5" />
           </Button.Icon>
