@@ -21,7 +21,7 @@ const Header = () => {
       </Link>
 
       <nav className="flex items-center gap-10 font-semibold">
-        <Link to="/" className="font-semibold">
+        <Link to="/explore" className="font-semibold">
           Explorar
         </Link>
 
