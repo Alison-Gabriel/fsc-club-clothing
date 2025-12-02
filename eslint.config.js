@@ -17,6 +17,7 @@ export default defineConfig([
       "eslint-plugin-simple-import-sort/imports": "error",
       "eslint-plugin-simple-import-sort/exports": "error",
       "react-hooks/set-state-in-effect": "off",
+      "react-refresh/only-export-components": "off",
     },
     extends: [
       js.configs.recommended,
