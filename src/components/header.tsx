@@ -21,17 +21,19 @@ const Header = () => {
       </Link>
 
       <nav className="flex items-center gap-10 font-semibold">
-        <Link to="/explore" className="font-semibold">
-          Explorar
-        </Link>
+        {isUserAuthenticated && (
+          <Link to="/explore" className="font-semibold">
+            Explorar
+          </Link>
+        )}
 
         {isUserNotAuthenticated && (
           <>
             <Link to="/login" className="font-semibold">
-              Login
+              Entrar
             </Link>
             <Link to="/signup" className="font-semibold">
-              Criar Conta
+              Criar conta
             </Link>
           </>
         )}
