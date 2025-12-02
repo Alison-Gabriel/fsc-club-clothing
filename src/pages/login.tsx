@@ -3,7 +3,7 @@ import { signInWithPopup } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { FaGoogle } from "react-icons/fa";
 
-import Button from "../components/button";
+import * as Button from "../components/button";
 import Header from "../components/header";
 import LoginForm from "../components/login-form";
 import { auth, db, googleProvider } from "../lib/firebase";
@@ -45,14 +45,19 @@ const LoginPage = () => {
       <main className="flex h-[calc(100vh-72px)] w-full items-center justify-center p-8">
         <section className="w-lg space-y-5">
           <header className="space-y-5 text-center">
-            <h2 className="text-xl font-bold">Entre com a sua conta</h2>
+            <h2 className="text-lg font-semibold md:text-2xl">
+              Entre com a sua conta
+            </h2>
 
-            <Button icon={FaGoogle} onClick={handleLoginWithGoogle}>
-              Entrar com o Google
-            </Button>
+            <Button.Root onClick={handleLoginWithGoogle}>
+              <Button.Icon>
+                <FaGoogle className="text-brand-foreground size-4" />
+              </Button.Icon>
+              <Button.Label text="Entrar com o Google" />
+            </Button.Root>
 
-            <p className="text-brand-dark-foreground text-sm font-semibold">
-              ou entre com o seu e-mail
+            <p className="text-brand-dark-foreground font-semibold">
+              Ou, entre com o seu e-mail:
             </p>
           </header>
 
