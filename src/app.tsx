@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 
+import Loading from "./components/loading";
 import { useAuth } from "./contexts/auth";
 import { userConverter } from "./converters/firestore-converter";
 import { auth, db } from "./lib/firebase";
@@ -39,7 +40,7 @@ const App = () => {
     return setIsInitializing(false);
   });
 
-  if (isInitializing) return null;
+  if (isInitializing) return <Loading />;
 
   return (
     <BrowserRouter>
